@@ -17,6 +17,10 @@ my $ac_file = '/proc/acpi/ac_adapter/AC0/state';
 my $localidad = '#Tachira #Cardenas #AltosParamillo';
 
 # Averiguamos el estado del adaptador de AC.
+
+# Debido a los picos y saltos de energía, es necesario esperar al menos 1 minuto, para evitar falsos positivos. 
+sleep 60;
+
 chomp(my $ac = `cat $ac_file`);
 
 if ( $ac =~ /on-line/ ) {
@@ -27,7 +31,8 @@ elsif ( $ac =~ /off-line/ ) {
 }
 
 sub llegoLaLuz {
-
+	# El aba tarda algunas veces 2 minutos en enganchar, me espero 60 segundos mas. 
+	sleep 60;
     #Notifico por correo que llego la luz
     my $mensaje = "Llego la Luz en $localidad";
     correo $mensaje, 'Llego la luz', 'info@covetel.com.ve';
