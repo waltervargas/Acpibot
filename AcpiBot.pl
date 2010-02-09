@@ -38,6 +38,7 @@ sub sefueLaLuz {
     my $mensaje = "oH! Se ha ido la luz en $localidad";
     correo $mensaje, 'Se fue la Luz', 'info@covetel.com.ve';
     twitter $mensaje;
+	apagar; 
 }
 
 sub correo {
@@ -64,6 +65,11 @@ sub twitter {
 }
 
 sub apagar {
-
+	my @servidores = ('192.168.1.240');
+	my $usuario = "acpibot";
+	foreach my $servidor (@servidores) {		
+		my $comando = "ssh -l $usuario $servidor 'sudo /sbin/shutdown -h now'"; 
+		system($comando);
+	}
 }
 1;
